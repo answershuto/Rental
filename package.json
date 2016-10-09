@@ -1,0 +1,17 @@
+{
+  "name": "news project",
+  "version": "1.0.0",
+  "description": "nodejs Project module",
+  "main": "bin/www",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+  ],
+  "author": "cao yang",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4"
+  }
+}
