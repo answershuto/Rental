@@ -1,4 +1,4 @@
-var NewsController = require('../controllers/news.server.controller');
+var RentalController = require('../controllers/rental.server.controller');
 
 module.exports = function(app){
 	app.route('/')
