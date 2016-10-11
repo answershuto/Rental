@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var controller = require('../app/controllers/rental.server.controller');
 
 module.exports = function(){
 	console.log('init express..');
@@ -11,6 +12,7 @@ module.exports = function(){
 	app.use(bodyParser.json());
 
 	require('../app/routes/rental.server.routes')(app);
+	controller.init();
 
 	app.use(function(req, res, next){
 		res.status(404);
