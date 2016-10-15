@@ -4,7 +4,7 @@
   "description": "nodejs Project module",
   "main": "bin/www",
   "scripts": {
-    "start": "node bin/www",
+    "start": "babel-node bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,5 +16,9 @@
     "express": "^4.13.4",
     "http": "0.0.0",
     "request": "^2.75.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-preset-es2015": "^6.16.0"
   }
 }
