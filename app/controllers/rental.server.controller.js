@@ -3,7 +3,28 @@ var http = require('http');
 var cheerio = require('cheerio');
 var cfg = require('../../config/config')
 
-let rentalSet = new Set();
+let rentalObj = (function(){
+	/*保存58同城上爬取的每个租房的URL*/
+	let rentalSet =  new Set();
+
+	let callBackFunc = function(){};
+
+	return {
+		add(data){
+			rentalSet.add(data);
+			callBackFunc && callBackFunc(data);
+		},
+
+		register(func){
+			callBackFunc = func;
+		},
+
+		unRegister(){
+			callBackFunc = function(){};
+		}
+	}
+})();
+
 
 /***********************************************************************************************
 *函数名 getUrl
@@ -16,12 +37,12 @@ function getUrl(page = 1){
 }
 
 /***********************************************************************************************
-*函数名 ：updateRentalInfo
+*函数名 updateRentalUrl
 *函数功能描述 ：从58网站上更新租房信息
 *函数参数 ：无
 *函数返回值 ：无
 ***********************************************************************************************/
-function updateRentalInfo(){
+function updateRentalUrl(){
 	for(let page=1;page<=cfg.page;page++){
 		let html = '';
 		http.get(getUrl(page), function(res){
@@ -33,15 +54,38 @@ function updateRentalInfo(){
 				let $ = cheerio.load(html);
 				let arrRentals = $('.tbimg')[0];
 				for(let i = 0; i < $('a.t').length; i++){
-					rentalSet.add($('a.t')[i].attribs.href)
+					rentalObj.add($('a.t')[i].attribs.href)
 				}
 			})
 		})
 	}
 }
 
+/***********************************************************************************************
+*函数名 getRentalInfos
+*函数功能描述 ：根据URL获取租房信息
+*函数参数 ：url:每条租房信息的URL
+*函数返回值 ：无
+***********************************************************************************************/
+function getRentalInfosByUrl(url){
+	let html = '';
+	http.get(url, function(res){
+		res.on('data', function(chuck){
+			html += chuck;
+		})
+
+		res.on('end', function(){
+			let $ = cheerio.load(html);
+			console.log(html)
+		})
+	})
+}
+
+
+
 module.exports = {
 	init(){
-		updateRentalInfo();		
+		updateRentalUrl();	
+		rentalObj.register(getRentalInfos);
 	}
 }
