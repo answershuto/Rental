@@ -79,6 +79,9 @@ function getRentalInfosByUrl(url){console.log('url',url);
 
 		res.on('end', function(){
 			let $ = cheerio.load(html);
+			//console.log($('span.tel-num.tel-font').text())/*电话*/
+			//console.log($('.house-price').text())/*价格*/
+		
 		})
 	})
 }
