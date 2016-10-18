@@ -7,10 +7,12 @@ let rentalObj = (function(){
 	/*保存58同城上爬取的每个租房的URL*/
 	let rentalSet =  new Set();
 
+	/*增加URL后的回调函数*/
 	let callBackFunc = function(){};
 
 	return {
 		add(data){
+			if (data.indexOf('hz.58.com') < 0) return;/*暂时屏蔽会跳转的URL*/
 			rentalSet.add(data);
 			callBackFunc && callBackFunc(data);
 		},
@@ -52,8 +54,9 @@ function updateRentalUrl(){
 
 			res.on('end', function(){
 				let $ = cheerio.load(html);
-				let arrRentals = $('.tbimg')[0];
+				 let arrRentals = $('.tbimg')[0];
 				for(let i = 0; i < $('a.t').length; i++){
+					//if (i > 0) {continue;};
 					rentalObj.add($('a.t')[i].attribs.href)
 				}
 			})
@@ -62,12 +65,12 @@ function updateRentalUrl(){
 }
 
 /***********************************************************************************************
-*函数名 getRentalInfos
+*函数名 getRentalInfosByUrl
 *函数功能描述 ：根据URL获取租房信息
 *函数参数 ：url:每条租房信息的URL
 *函数返回值 ：无
 ***********************************************************************************************/
-function getRentalInfosByUrl(url){
+function getRentalInfosByUrl(url){console.log('url',url);
 	let html = '';
 	http.get(url, function(res){
 		res.on('data', function(chuck){
@@ -76,7 +79,6 @@ function getRentalInfosByUrl(url){
 
 		res.on('end', function(){
 			let $ = cheerio.load(html);
-			console.log(html)
 		})
 	})
 }
@@ -86,6 +88,6 @@ function getRentalInfosByUrl(url){
 module.exports = {
 	init(){
 		updateRentalUrl();	
-		rentalObj.register(getRentalInfos);
+		rentalObj.register(getRentalInfosByUrl);
 	}
 }
