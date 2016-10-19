@@ -70,7 +70,7 @@ function updateRentalUrl(){
 *函数参数 ：url:每条租房信息的URL
 *函数返回值 ：无
 ***********************************************************************************************/
-function getRentalInfosByUrl(url){console.log('url',url);
+function getRentalInfosByUrl(url){
 	let html = '';
 	http.get(url, function(res){
 		res.on('data', function(chuck){
@@ -79,9 +79,14 @@ function getRentalInfosByUrl(url){console.log('url',url);
 
 		res.on('end', function(){
 			let $ = cheerio.load(html);
-			//console.log($('span.tel-num.tel-font').text())/*电话*/
-			//console.log($('.house-price').text())/*价格*/
-		
+			/*电话*/
+			//console.log($('span.tel-num.tel-font').text())
+			/*价格*/
+			//console.log($('.house-price').text())
+			/*小区名称(只有部分有次数据)*/
+			//$('td.house-xqxq-content a.ablue') && $('td.house-xqxq-content a.ablue')['0'] && console.log($('td.house-xqxq-content a.ablue')['0'].children[0].data)
+			
+			console.log('------------')
 		})
 	})
 }
