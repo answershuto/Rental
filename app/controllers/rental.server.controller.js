@@ -101,5 +101,13 @@ module.exports = {
 	init(){
 		updateRentalUrl();	
 		rentalObj.register(getRentalInfosByUrl);
+	},
+
+	getRentalInfos(req, res, next){
+		let params = {};
+		for(let {k,v} of rentalInfos){
+			params[k] = v;
+		}
+		res.json({result: true,params});
 	}
 }

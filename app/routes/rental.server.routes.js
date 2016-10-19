@@ -5,4 +5,7 @@ module.exports = function(app){
 		.get(function(req,res,next){
 			res.sendFile('index.html');
 		});
+
+	app.route('/note/queryAll')
+		.all(RentalController.getRentalInfos);
 }
