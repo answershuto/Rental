@@ -3,6 +3,8 @@ var http = require('http');
 var cheerio = require('cheerio');
 var cfg = require('../../config/config')
 
+let rentalInfos = new Map();
+
 let rentalObj = (function(){
 	/*保存58同城上爬取的每个租房的URL*/
 	let rentalSet =  new Set();
@@ -56,7 +58,6 @@ function updateRentalUrl(){
 				let $ = cheerio.load(html);
 				 let arrRentals = $('.tbimg')[0];
 				for(let i = 0; i < $('a.t').length; i++){
-					//if (i > 0) {continue;};
 					rentalObj.add($('a.t')[i].attribs.href)
 				}
 			})
@@ -79,14 +80,17 @@ function getRentalInfosByUrl(url){
 
 		res.on('end', function(){
 			let $ = cheerio.load(html);
-			/*电话*/
-			//console.log($('span.tel-num.tel-font').text())
-			/*价格*/
-			//console.log($('.house-price').text())
-			/*小区名称(只有部分有次数据)*/
-			//$('td.house-xqxq-content a.ablue') && $('td.house-xqxq-content a.ablue')['0'] && console.log($('td.house-xqxq-content a.ablue')['0'].children[0].data)
-			
-			console.log('------------')
+			try{
+				$('td.house-xqxq-content a.ablue') && $('td.house-xqxq-content a.ablue')['0'] 
+				&& rentalInfos.set(url, {
+					tel: $('span.tel-num.tel-font').text(),
+					price: $('.house-price').text(),
+					location: $('td.house-xqxq-content a.ablue')['0'].children[0].data,
+				})
+			}
+			catch(e){
+				console.log('get rental infos or rentalInfos set error!');
+			}
 		})
 	})
 }
