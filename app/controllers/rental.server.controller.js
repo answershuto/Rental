@@ -3,7 +3,7 @@ var http = require('http');
 var cheerio = require('cheerio');
 var cfg = require('../../config/config')
 
-let rentalInfos = new Map();
+let rentalInfosMap = new Map();
 
 let rentalObj = (function(){
 	/*保存58同城上爬取的每个租房的URL*/
@@ -82,14 +82,14 @@ function getRentalInfosByUrl(url){
 			let $ = cheerio.load(html);
 			try{
 				$('td.house-xqxq-content a.ablue') && $('td.house-xqxq-content a.ablue')['0'] 
-				&& rentalInfos.set(url, {
+				&& rentalInfosMap.set(url, {
 					tel: $('span.tel-num.tel-font').text(),
 					price: $('.house-price').text(),
 					location: $('td.house-xqxq-content a.ablue')['0'].children[0].data,
 				})
 			}
 			catch(e){
-				console.log('get rental infos or rentalInfos set error!');
+				console.log('get rental infos or rentalInfosMap set error!');
 			}
 		})
 	})
@@ -105,9 +105,11 @@ module.exports = {
 
 	getRentalInfos(req, res, next){
 		let params = {};
-		for(let {k,v} of rentalInfos){
+	
+		for(let [k,v] of rentalInfosMap){
 			params[k] = v;
 		}
+		
 		res.json({result: true,params});
 	}
 }
