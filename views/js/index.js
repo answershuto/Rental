@@ -1,6 +1,14 @@
 (function(){
 	function getInfosSuc(data){
-		console.log(data)
+		var params = data.params
+		for(var url in params){
+			var localSearch = new BMap.LocalSearch(map);
+			localSearch.setSearchCompleteCallback(function (searchResult) {
+				var poi = searchResult.getPoi(0);
+				console.log(poi)
+		　　});
+			localSearch.search(params[url].location);
+		}
 	}
 
 	function getInfosErr(e){
@@ -20,11 +28,5 @@
 		error: getInfosErr ,
 	})
 
-	var localSearch = new BMap.LocalSearch(map);
-	var keyword = '浙江大华';
-	localSearch.setSearchCompleteCallback(function (searchResult) {
-		var poi = searchResult.getPoi(0);
-		console.log(poi)
-　　});
-	localSearch.search(keyword);
+	
 })();
