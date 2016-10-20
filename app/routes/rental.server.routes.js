@@ -6,6 +6,6 @@ module.exports = function(app){
 			res.sendFile('index.html');
 		});
 
-	app.route('/note/queryAll')
+	app.route('/rental/getInfos')
 		.all(RentalController.getRentalInfos);
 }
