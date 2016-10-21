@@ -12,13 +12,13 @@
 				// map.addOverlay(marker);            
 				// marker.setAnimation(BMAP_ANIMATION_BOUNCE); /*动画跳动*/
 
-				var myIcon = new BMap.Icon("../image/house.png", new BMap.Size(100, 100), {});      
+				var myIcon = new BMap.Icon("../image/house.png", new BMap.Size(30, 30), {});      
 				// 创建标注对象并添加到地图   
 				var marker = new BMap.Marker(point, {icon: myIcon});    
 				map.addOverlay(marker);    
 
 				marker.addEventListener("click", function(){    
-				 	alert(url);    
+				 	window.location.href = url; 
 				});
 
 		　　});
