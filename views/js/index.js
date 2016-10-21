@@ -7,12 +7,20 @@
 				var poi = searchResult.getPoi(0);/*地理位置信息*/
 				var point = new BMap.Point(poi.point.lng,poi.point.lat);
 
-				/*创建标注并加入地图*/
-				var marker = new BMap.Marker(point);  
-				map.addOverlay(marker);            
-				marker.setAnimation(BMAP_ANIMATION_BOUNCE); /*动画跳动*/
+				// /*创建标注并加入地图*/
+				// var marker = new BMap.Marker(point);  
+				// map.addOverlay(marker);            
+				// marker.setAnimation(BMAP_ANIMATION_BOUNCE); /*动画跳动*/
 
-				
+				var myIcon = new BMap.Icon("../image/house.png", new BMap.Size(100, 100), {});      
+				// 创建标注对象并添加到地图   
+				var marker = new BMap.Marker(point, {icon: myIcon});    
+				map.addOverlay(marker);    
+
+				marker.addEventListener("click", function(){    
+				 	alert(url);    
+				});
+
 		　　});
 			localSearch.search(params[url].location);
 		}
@@ -23,7 +31,7 @@
 	}
 
 	var map = new BMap.Map("container");          // 创建地图实例  
-	map.centerAndZoom("杭州", 14);
+	map.centerAndZoom("杭州", 12);
 	
 	$.ajax({
 		'type': 'post',
