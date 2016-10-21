@@ -4,8 +4,15 @@
 		for(var url in params){
 			var localSearch = new BMap.LocalSearch(map);
 			localSearch.setSearchCompleteCallback(function (searchResult) {
-				var poi = searchResult.getPoi(0);
-				console.log(poi)
+				var poi = searchResult.getPoi(0);/*地理位置信息*/
+				var point = new BMap.Point(poi.point.lng,poi.point.lat);
+
+				/*创建标注并加入地图*/
+				var marker = new BMap.Marker(point);  
+				map.addOverlay(marker);            
+				marker.setAnimation(BMAP_ANIMATION_BOUNCE); /*动画跳动*/
+
+				
 		　　});
 			localSearch.search(params[url].location);
 		}
@@ -16,7 +23,7 @@
 	}
 
 	var map = new BMap.Map("container");          // 创建地图实例  
-	map.centerAndZoom("杭州", 13);
+	map.centerAndZoom("杭州", 14);
 	
 	$.ajax({
 		'type': 'post',

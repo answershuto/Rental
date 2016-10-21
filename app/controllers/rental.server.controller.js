@@ -87,6 +87,8 @@ function getRentalInfosByUrl(url){
 					price: $('.house-price').text(),
 					location: $('td.house-xqxq-content a.ablue')['0'].children[0].data,
 				})
+
+				console.log('---------',rentalInfosMap)
 			}
 			catch(e){
 				console.log('get rental infos or rentalInfosMap set error!');
