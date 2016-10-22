@@ -3,8 +3,7 @@ var http = require('http');
 var cheerio = require('cheerio');
 var cfg = require('../../config/config')
 
-let rentalInfosMap = new Map();
-
+/*url存储对象*/
 let rentalObj = (function(){
 	/*保存58同城上爬取的每个租房的URL*/
 	let rentalSet =  new Set();
@@ -29,6 +28,65 @@ let rentalObj = (function(){
 	}
 })();
 
+/*url读取解析对象*/
+let rentalInfosObj = (function(){
+	/*二手房解析出来的数据存储在该map中*/
+	let rentalInfosMap = new Map();
+
+	let szUrlPipe = [];/*管道数组，将得到url压入，由定时器按时读取访问解析。*/
+
+	(function func(){
+		if (szUrlPipe.length) {
+			analysis(szUrlPipe.shift());
+		};
+
+		/*1-5s随机访问,防止访问过快导致被反爬虫*/
+		setTimeout(func,5000 * Math.random());
+	})();
+	
+
+	/*根据url访问并解析返回值*/
+	function analysis(url){
+		let html = '';
+		http.get(url, function(res){
+			res.on('data', function(chuck){
+				html += chuck;
+			})
+
+			res.on('end', function(){
+				let $ = cheerio.load(html);
+				try{
+					$('td.house-xqxq-content a.ablue') && $('td.house-xqxq-content a.ablue')['0'] 
+					&& rentalInfosMap.set(url, {
+						tel: $('span.tel-num.tel-font').text(),
+						price: $('.house-price').text(),
+						location: $('td.house-xqxq-content a.ablue')['0'].children[0].data,
+					})
+
+					console.log('---------',rentalInfosMap)
+				}
+				catch(e){
+					console.log('get rental infos or rentalInfosMap set error!');
+				}
+			})
+		})
+	}
+
+	return {
+		push(url){
+			szUrlPipe.push(url);
+		},
+		getRentalInfos(){
+			let params = {};
+	
+			for(let [k,v] of rentalInfosMap){
+				params[k] = v;
+			}
+
+			return params;
+		}
+	}
+})();
 
 /***********************************************************************************************
 *函数名 getUrl
@@ -72,29 +130,7 @@ function updateRentalUrl(){
 *函数返回值 ：无
 ***********************************************************************************************/
 function getRentalInfosByUrl(url){
-	let html = '';
-	http.get(url, function(res){
-		res.on('data', function(chuck){
-			html += chuck;
-		})
-
-		res.on('end', function(){
-			let $ = cheerio.load(html);
-			try{
-				$('td.house-xqxq-content a.ablue') && $('td.house-xqxq-content a.ablue')['0'] 
-				&& rentalInfosMap.set(url, {
-					tel: $('span.tel-num.tel-font').text(),
-					price: $('.house-price').text(),
-					location: $('td.house-xqxq-content a.ablue')['0'].children[0].data,
-				})
-
-				console.log('---------',rentalInfosMap)
-			}
-			catch(e){
-				console.log('get rental infos or rentalInfosMap set error!');
-			}
-		})
-	})
+	rentalInfosObj.push(url);
 }
 
 
@@ -106,11 +142,7 @@ module.exports = {
 	},
 
 	getRentalInfos(req, res, next){
-		let params = {};
-	
-		for(let [k,v] of rentalInfosMap){
-			params[k] = v;
-		}
+		params = rentalInfosObj.getRentalInfos();
 		
 		res.json({result: true,params});
 	}

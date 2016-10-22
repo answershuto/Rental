@@ -1,16 +1,11 @@
 (function(){
 	function getInfosSuc(data){
-		var params = data.params
-		for(var url in params){
+		var params = data.params;var i=0
+		for(var url in params){i++
 			var localSearch = new BMap.LocalSearch(map);
 			localSearch.setSearchCompleteCallback(function (searchResult) {
 				var poi = searchResult.getPoi(0);/*地理位置信息*/
 				var point = new BMap.Point(poi.point.lng,poi.point.lat);
-
-				// /*创建标注并加入地图*/
-				// var marker = new BMap.Marker(point);  
-				// map.addOverlay(marker);            
-				// marker.setAnimation(BMAP_ANIMATION_BOUNCE); /*动画跳动*/
 
 				var myIcon = new BMap.Icon("../image/house.png", new BMap.Size(30, 30), {});      
 				// 创建标注对象并添加到地图   
@@ -21,7 +16,7 @@
 				 	window.location.href = url; 
 				});
 
-		　　});
+		　　});console.log(i)
 			localSearch.search(params[url].location);
 		}
 	}
