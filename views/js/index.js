@@ -13,8 +13,19 @@
 				var marker = new BMap.Marker(point, {icon: myIcon});    
 				map.addOverlay(marker);    
 
-				marker.addEventListener("click", function(){    
-				 	window.location.href = url; 
+				// marker.addEventListener("click", function(){    
+				//  	window.location.href = url; 
+				// });
+
+				var opts = {
+				  	width : 200,    
+				  	height: 100,     
+				  	title : poi.title , 
+				  	enableMessage:true,
+				}
+				var infoWindow = new BMap.InfoWindow("<a href="+url+">"+url+"</a>", opts);  // 创建信息窗口对象 
+				marker.addEventListener("click", function(){          
+					map.openInfoWindow(infoWindow,point); //开启信息窗口
 				});
 
 		　　});
