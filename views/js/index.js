@@ -1,10 +1,11 @@
 (function(){
 	function getInfosSuc(data){
-		var params = data.params;var i=0
-		for(var url in params){i++
+		var params = data.params;
+		for(var url in params){
 			var localSearch = new BMap.LocalSearch(map);
 			localSearch.setSearchCompleteCallback(function (searchResult) {
 				var poi = searchResult.getPoi(0);/*地理位置信息*/
+				console.log(poi)
 				var point = new BMap.Point(poi.point.lng,poi.point.lat);
 
 				var myIcon = new BMap.Icon("../image/house.png", new BMap.Size(30, 30), {});      
@@ -16,7 +17,7 @@
 				 	window.location.href = url; 
 				});
 
-		　　});console.log(i)
+		　　});
 			localSearch.search(params[url].location);
 		}
 	}
@@ -27,6 +28,8 @@
 
 	var map = new BMap.Map("container");          // 创建地图实例  
 	map.centerAndZoom("杭州", 12);
+	map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
+	map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
 	
 	$.ajax({
 		'type': 'post',
