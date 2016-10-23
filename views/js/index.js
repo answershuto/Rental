@@ -1,34 +1,70 @@
 (function(){
 	function getInfosSuc(data){
 		var params = data.params;
+		var szPois = [];
 		for(var url in params){
 			var localSearch = new BMap.LocalSearch(map);
-			localSearch.setSearchCompleteCallback(function (searchResult) {
-				var poi = searchResult.getPoi(0);/*地理位置信息*/
-				console.log(poi)
-				var point = new BMap.Point(poi.point.lng,poi.point.lat);
+			localSearch.setSearchCompleteCallback((function(url){
+				return function (searchResult) {
+					var poi = searchResult.getPoi(0);/*地理位置信息*/
+					if (!poi) return;
+					//console.log(poi)
+					var isHasPoi = false;
+					for(var i=0;i<szPois.length;i++){
+						if (szPois[i].point.lng === poi.point.lng && szPois[i].point.lat === poi.point.lat) {
+							isHasPoi = true;
+							break;
+						};
+					}
 
-				var myIcon = new BMap.Icon("../image/house.png", new BMap.Size(30, 30), {});      
-				// 创建标注对象并添加到地图   
-				var marker = new BMap.Marker(point, {icon: myIcon});    
-				map.addOverlay(marker);    
+					if (isHasPoi) {/*同一个小区有多套房子*/
+						var point = new BMap.Point(poi.point.lng,poi.point.lat);
+						szPois[i].urls.push(url)
+						szPois[i].marker.addEventListener("click", (function(p){
+							return function(){   
+								/*点击房屋图标后弹出的信息框*/
+								var opts = {
+								  	width : 200,    
+								  	height: 100 * p.urls.length,     
+								  	title : poi.title , 
+								  	enableMessage:true,
+								}
+								var message = "";
+								p.urls.forEach(function(item,index){
+									message += "<div><a href="+item+">"+item+"</a></div>"
+								})
+								var infoWindow = new BMap.InfoWindow(message, opts);       
+								map.openInfoWindow(infoWindow,point); //开启信息窗口
+							}
+						})(szPois[i]));
+					}
+					else{
+						var point = new BMap.Point(poi.point.lng,poi.point.lat);
 
-				// marker.addEventListener("click", function(){    
-				//  	window.location.href = url; 
-				// });
+						var myIcon = new BMap.Icon("../image/house.png", new BMap.Size(30, 30), {});      
+						// 创建标注对象并添加到地图   
+						var marker = new BMap.Marker(point, {icon: myIcon});    
+						map.addOverlay(marker);
 
-				var opts = {
-				  	width : 200,    
-				  	height: 100,     
-				  	title : poi.title , 
-				  	enableMessage:true,
-				}
-				var infoWindow = new BMap.InfoWindow("<a href="+url+">"+url+"</a>", opts);  // 创建信息窗口对象 
-				marker.addEventListener("click", function(){          
-					map.openInfoWindow(infoWindow,point); //开启信息窗口
-				});
+						marker.addEventListener("click", function(){    
+							/*点击房屋图标后弹出的信息框*/
+							var opts = {
+							  	width : 200,    
+							  	height: 100,     
+							  	title : poi.title , 
+							  	enableMessage:true,
+							}
+							var infoWindow = new BMap.InfoWindow("<a href="+url+">"+url+"</a>", opts);       
+							map.openInfoWindow(infoWindow,point); //开启信息窗口
+						});
 
-		　　});
+						poi.marker = marker;
+						poi.urls = [url];
+						szPois.push(poi);
+					}  
+
+			　　}
+			})(url));
 			localSearch.search(params[url].location);
 		}
 	}
