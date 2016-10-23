@@ -30,6 +30,19 @@
 	map.centerAndZoom("杭州", 12);
 	map.enableScrollWheelZoom();   //启用滚轮放大缩小，默认禁用
 	map.enableContinuousZoom();    //启用地图惯性拖拽，默认禁用
+
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+			var mk = new BMap.Marker(r.point);
+			map.addOverlay(mk);
+			map.panTo(r.point);
+			mk.setAnimation(BMAP_ANIMATION_BOUNCE); /*动画跳动*/
+		}
+		else {
+			alert('failed'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
 	
 	$.ajax({
 		'type': 'post',
