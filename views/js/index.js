@@ -4,8 +4,8 @@
 		var szPois = [];
 		for(var url in params){
 			var localSearch = new BMap.LocalSearch(map);
-			localSearch.setSearchCompleteCallback((function(url){
-				return function (searchResult) {
+			localSearch.setSearchCompleteCallback((function(url, infos){
+				return function (searchResult) {console.log(searchResult)
 					var poi = searchResult.getPoi(0);/*地理位置信息*/
 					if (!poi) return;
 					//console.log(poi)
@@ -19,7 +19,8 @@
 
 					if (isHasPoi) {/*同一个小区有多套房子*/
 						var point = new BMap.Point(poi.point.lng,poi.point.lat);
-						szPois[i].urls.push(url)
+						szPois[i].urls.push(url);
+						szPois[i].imgs.push(infos.img);
 						szPois[i].marker.addEventListener("click", (function(p){
 							return function(){   
 								/*点击房屋图标后弹出的信息框*/
@@ -31,7 +32,7 @@
 								}
 								var message = "";
 								p.urls.forEach(function(item,index){
-									message += "<div><a href="+item+">"+item+"</a></div>"
+									message += "<div><img class='img-responsive showImg' alt='Responsive image' src="+p.imgs[index]+" href="+item+"></img></div>"
 								})
 								var infoWindow = new BMap.InfoWindow(message, opts);       
 								map.openInfoWindow(infoWindow,point); //开启信息窗口
@@ -49,22 +50,23 @@
 						marker.addEventListener("click", function(){    
 							/*点击房屋图标后弹出的信息框*/
 							var opts = {
-							  	width : 200,    
-							  	height: 100,     
+							  	width : 150,    
+							  	height: 150,     
 							  	title : poi.title , 
 							  	enableMessage:true,
 							}
-							var infoWindow = new BMap.InfoWindow("<a href="+url+">"+url+"</a>", opts);       
+							var infoWindow = new BMap.InfoWindow("<img class='img-responsive showImg' alt='Responsive image' src="+infos.img+" href="+url+"></img>", opts);       
 							map.openInfoWindow(infoWindow,point); //开启信息窗口
 						});
 
 						poi.marker = marker;
 						poi.urls = [url];
+						poi.imgs = [infos.img]
 						szPois.push(poi);
 					}  
 
 			　　}
-			})(url));
+			})(url, params[url]));
 			localSearch.search(params[url].location);
 		}
 	}
