@@ -5,8 +5,16 @@
 		for(var url in params){
 			var localSearch = new BMap.LocalSearch(map);
 			localSearch.setSearchCompleteCallback((function(url, infos){
-				return function (searchResult) {console.log(searchResult)
+				var hasShowUrls = [];
+				return function (searchResult) {
+					for(var j=0;j<hasShowUrls.length;j++){
+						if (url === hasShowUrls[j]) {
+							return;
+						};
+					}
+					hasShowUrls.push(url);
 					var poi = searchResult.getPoi(0);/*地理位置信息*/
+					console.log(searchResult,searchResult.getPoi(0))
 					if (!poi) return;
 					//console.log(poi)
 					var isHasPoi = false;
