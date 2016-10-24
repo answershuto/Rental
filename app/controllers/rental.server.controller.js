@@ -41,7 +41,7 @@ let rentalInfosObj = (function(){
 		};
 
 		/*1-5s随机访问,防止访问过快导致被反爬虫*/
-		setTimeout(func,5000 * Math.random());
+		setTimeout(func,50000 * Math.random());
 	})();
 	
 
@@ -61,6 +61,7 @@ let rentalInfosObj = (function(){
 						tel: $('span.tel-num.tel-font').text(),
 						price: $('.house-price').text(),
 						location: $('td.house-xqxq-content a.ablue')['0'].children[0].data,
+						img: $('#smainPic')['0'].attribs.src,
 					})
 
 					console.log('---------',rentalInfosMap)
@@ -142,8 +143,8 @@ module.exports = {
 	},
 
 	getRentalInfos(req, res, next){
-		params = rentalInfosObj.getRentalInfos();
-		
+		let params = rentalInfosObj.getRentalInfos();
+		console.log('params',params)
 		res.json({result: true,params});
 	}
 }
