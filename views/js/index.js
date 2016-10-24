@@ -34,7 +34,7 @@
 								/*点击房屋图标后弹出的信息框*/
 								var opts = {
 								  	width : 200,    
-								  	height: 100 * p.urls.length,     
+								  	height: 200 * p.urls.length,     
 								  	title : poi.title , 
 								  	enableMessage:true,
 								}
@@ -58,8 +58,8 @@
 						marker.addEventListener("click", function(){    
 							/*点击房屋图标后弹出的信息框*/
 							var opts = {
-							  	width : 150,    
-							  	height: 150,     
+							  	width : 200,    
+							  	height: 200,     
 							  	title : poi.title , 
 							  	enableMessage:true,
 							}

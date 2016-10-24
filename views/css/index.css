@@ -11,7 +11,8 @@ body{
 }  
 
 .showImg{
-	width: 150px;
-	height: 150px;
+	width: 200px;
+	height: 160px;
+	margin: 20px auto;
 	cursor: pointer;
 }
