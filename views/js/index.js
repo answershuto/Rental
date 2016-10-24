@@ -40,7 +40,7 @@
 								}
 								var message = "";
 								p.urls.forEach(function(item,index){
-									message += "<div><img class='img-responsive showImg' alt='Responsive image' src="+p.imgs[index]+" href="+item+"></img></div>"
+									message += "<div><a href="+item+"><img title='点击访问' class='img-responsive showImg' alt='Responsive image' src="+p.imgs[index]+"></img></a></div>"
 								})
 								var infoWindow = new BMap.InfoWindow(message, opts);       
 								map.openInfoWindow(infoWindow,point); //开启信息窗口
@@ -63,7 +63,7 @@
 							  	title : poi.title , 
 							  	enableMessage:true,
 							}
-							var infoWindow = new BMap.InfoWindow("<img class='img-responsive showImg' alt='Responsive image' src="+infos.img+" href="+url+"></img>", opts);       
+							var infoWindow = new BMap.InfoWindow("<a href="+url+"><img title='点击访问' class='img-responsive showImg' alt='Responsive image' src="+infos.img+"></img></a>", opts);       
 							map.openInfoWindow(infoWindow,point); //开启信息窗口
 						});
 
