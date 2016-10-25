@@ -39,8 +39,8 @@ let rentalInfosObj = (function(){
 			analysis(szUrlPipe.shift());
 		};
 
-		/*1-5s随机访问,防止访问过快导致被反爬虫*/
-		setTimeout(func,50000 * Math.random());
+		/*1-10s随机访问,防止访问过快导致被反爬虫*/
+		setTimeout(func,10000 * Math.random());
 	})();
 	
 
