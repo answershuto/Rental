@@ -34,13 +34,22 @@ let rentalInfosObj = (function(){
 
 	let szUrlPipe = [];/*管道数组，将得到url压入，由定时器按时读取访问解析。*/
 
+	let iNum = 0;
 	(function func(){
 		if (szUrlPipe.length) {
 			analysis(szUrlPipe.shift());
 		};
 
-		/*1-10s随机访问,防止访问过快导致被反爬虫*/
-		setTimeout(func,10000 * Math.random());
+		iNum++;
+
+		/*1-10s随机访问,防止访问过快导致被反爬虫，每3次休息30s-1min*/
+		if (iNum === 3) {
+			setTimeout(func,30000 * (1+Math.random()));
+			iNum = 0;
+		}
+		else{
+			setTimeout(func,10000 * Math.random());
+		}
 	})();
 	
 
@@ -63,7 +72,7 @@ let rentalInfosObj = (function(){
 						img: $('#smainPic')['0'].attribs.src,
 					})
 
-					console.log('---------',rentalInfosMap)
+					console.log('---------',Array.from(rentalInfosMap).length)
 				}
 				catch(e){
 					console.log('get rental infos or rentalInfosMap set error!');
