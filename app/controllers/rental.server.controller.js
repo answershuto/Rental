@@ -1,4 +1,3 @@
-var mongoose = require('mongoose');
 var http = require('http');
 var cheerio = require('cheerio');
 var cfg = require('../../config/config')
