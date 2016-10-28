@@ -14,9 +14,7 @@
 					}
 					hasShowUrls.push(url);
 					var poi = searchResult.getPoi(0);/*地理位置信息*/
-					console.log(searchResult,searchResult.getPoi(0))
 					if (!poi) return;
-					//console.log(poi)
 					var isHasPoi = false;
 					for(var i=0;i<szPois.length;i++){
 						if (szPois[i].point.lng === poi.point.lng && szPois[i].point.lat === poi.point.lat) {

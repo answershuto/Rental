@@ -43,9 +43,11 @@ let rentalInfosObj = (function(){
 		iNum++;
 
 		/*1-10s随机访问,防止访问过快导致被反爬虫，每3次休息30s-1min*/
-		if (iNum === 3) {
-			setTimeout(func,30000 * (1+Math.random()));
-			iNum = 0;
+		if (iNum > 8) {
+			setTimeout(func,10000 * (1+Math.random()));
+			if (iNum === 40) {
+				iNum = 0;
+			};
 		}
 		else{
 			setTimeout(func,10000 * Math.random());
