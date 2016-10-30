@@ -38,7 +38,7 @@ let rentalInfosObj = (function(){
 	(function func(){
 		iNum++;
 
-		/*1-10s随机访问，每8次休息一次，休息时间为3-9分钟随机*/
+		/*反爬虫策略：1-10s随机访问，每8次休息一次，休息时间为3-9分钟随机*/
 		if (iNum > 8) {
 			setTimeout(func,10000 * (1+Math.random()));
 			if (iNum === 40) {
@@ -73,7 +73,7 @@ let rentalInfosObj = (function(){
 						img: $('#smainPic')['0'].attribs.src,
 					})
 
-					console.log('---------',Array.from(rentalInfosMap).length)
+					console.log('get '+Array.from(rentalInfosMap).length+' rental infos');
 				}
 				catch(e){
 					console.log('get rental infos or rentalInfosMap set error!');
