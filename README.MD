@@ -31,4 +31,4 @@
 
 教程：
 
-https://zhuanlan.zhihu.com/p/23253745
+[http://answershuto.github.io/jekyll/update/2016/10/25/养只爬虫当宠物-Node.js爬虫爬取58同城租房信息.html](http://answershuto.github.io/jekyll/update/2016/10/25/养只爬虫当宠物-Node.js爬虫爬取58同城租房信息.html)
