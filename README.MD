@@ -2,9 +2,15 @@
 
 ## 运行
 
-	cd Rental
-	npm install
-	npm start
+```bash
+cd Rental
+
+# install dependencies
+npm install
+
+# app running
+npm start
+```
 
 
 	open localhost:2000
