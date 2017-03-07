@@ -65,11 +65,12 @@ let rentalInfosObj = (function(){
 			res.on('end', function(){
 				let $ = cheerio.load(html);
 				try{
-					$('td.house-xqxq-content a.ablue') && $('td.house-xqxq-content a.ablue')['0'] 
+					
+					$('a.c_333') && $('a.c_333')['0'] 
 					&& rentalInfosMap.set(url, {
 						tel: $('span.tel-num.tel-font').text(),
 						price: $('.house-price').text(),
-						location: $('td.house-xqxq-content a.ablue')['0'].children[0].data,
+						location: $('a.c_333')[0].children[0].data,
 						img: $('#smainPic')['0'].attribs.src,
 					})
 
@@ -117,6 +118,7 @@ function getUrl(page = 1){
 function updateRentalUrl(){
 	for(let page=1;page<=cfg.page;page++){
 		let html = '';
+		
 		http.get(getUrl(page), function(res){
 			res.on('data', function(chuck){
 				html += chuck;
@@ -125,8 +127,8 @@ function updateRentalUrl(){
 			res.on('end', function(){
 				let $ = cheerio.load(html);
 				 let arrRentals = $('.tbimg')[0];
-				for(let i = 0; i < $('a.t').length; i++){
-					rentalObj.add($('a.t')[i].attribs.href)
+				for(let i = 0; i < $('div.des > h2 > a').length; i++){
+					rentalObj.add($('div.des > h2 > a')[i].attribs.href)
 				}
 			})
 		})
