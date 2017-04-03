@@ -45,24 +45,24 @@ npm start
 ├─  .babelrc            # babel配置
 │
 │
-├─	app                 # node后端业务
+├─  app                 # node后端业务
       │
       │ controllers   #  控制器
       │ models        #  数据模型
       │ routes        #  路由分发
 │
 │
-├─	bin                 # node启动
+├─  bin                 # node启动
 │
 │
-└─	views               # 前端代码
+└─  views               # 前端代码
       │ css           # css文件
       │ js            # js文件
       │ image         # 图片文件
       │ index.html    # 首页
 │
 │
-└─	config              # node配置
+└─  config              # node配置
 </pre>
 
 
