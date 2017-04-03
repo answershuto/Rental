@@ -47,19 +47,19 @@ npm start
 │
 ├─  app                 # node后端业务
       │
-      │ controllers   #  控制器
-      │ models        #  数据模型
-      │ routes        #  路由分发
+      │ controllers     #  控制器
+      │ models          #  数据模型
+      │ routes          #  路由分发
 │
 │
 ├─  bin                 # node启动
 │
 │
 └─  views               # 前端代码
-      │ css           # css文件
-      │ js            # js文件
-      │ image         # 图片文件
-      │ index.html    # 首页
+      │ css             # css文件
+      │ js              # js文件
+      │ image           # 图片文件
+      │ index.html      # 首页
 │
 │
 └─  config              # node配置
