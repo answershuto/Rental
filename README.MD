@@ -36,6 +36,35 @@ npm start
 ![img](./views/image/4.png)
 
 
+## 目录结构
+<pre>
+├─  package.json        # 项目配置
+├─  README.md           # 项目说明
+├─  app.js              # 项目入口文件
+├─  node_modules        # npm依赖包
+├─  .babelrc        	# babel配置
+│
+│
+├─	app                 # node后端业务
+		│
+		│ controllers   #  控制器
+		│ models   		#  数据模型
+		│ routes   		#  路由分发
+│
+│
+├─	bin                 # node启动
+│
+│
+└─	views               # 前端代码
+		│ css			# css文件
+		│ js			# js文件
+		│ image			# 图片文件
+		│ index.html	# 首页
+│
+│
+└─	config              # node配置
+</pre>
+
 
 ## 教程：
 
